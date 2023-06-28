@@ -1,0 +1,5 @@
+This is a 10 meter (33 ft) long Male TNC to Male SMA cable with injection molded stress-relief boots. This is an excellent cable for connecting one of our RTK development boards to a high quality 'UFO' style GNSS antenna. It's long enough to connect to an antenna on the roof to one of our GNSS receivers. The TNC connector allows the cable to be connected directly to an antenna reducing the number of adapters and thus keep signal degradation to a minimum.
+
+The SYV-50-3 cable has a loss of 52dB per 100m (320ft) or 5.2dB of loss per length of 10m. We specifically chose SYV-50-3 cable over RG58 (46 db per 100m) for its good balance of low loss and high flexibility.
+
+Each cable has a nominal impedance of 50Ω. If you are looking for a good antenna to pair this cable with, we recommend our GNSS Multi-Band L1/L2/L5 Surveying Antenna.

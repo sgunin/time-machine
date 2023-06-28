@@ -1,0 +1,3 @@
+[submodule "docs/GPS-22429/SparkFun_RTK_Reference_Station"]
+	path = docs/GPS-22429/SparkFun_RTK_Reference_Station
+	url = https://github.com/sparkfun/SparkFun_RTK_Reference_Station.git
