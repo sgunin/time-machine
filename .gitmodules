@@ -13,3 +13,15 @@
 [submodule "docs/GPS-18774/SparkFun_u-blox_GNSS_Arduino_Library"]
 	path = docs/GPS-18774/SparkFun_u-blox_GNSS_Arduino_Library
 	url = https://github.com/sparkfun/SparkFun_u-blox_GNSS_Arduino_Library.git
+[submodule "docs/NTRIP/awesome-gnss"]
+	path = docs/NTRIP/awesome-gnss
+	url = https://github.com/barbeau/awesome-gnss.git
+[submodule "docs/NTRIP/zedf9p-server"]
+	path = docs/NTRIP/zedf9p-server
+	url = https://github.com/anking/zedf9p-server.git
+[submodule "docs/RTCM/RTCM3"]
+	path = docs/RTCM/RTCM3
+	url = https://github.com/uuiitwp/RTCM3.git
+[submodule "docs/RTCM/asv-gnss"]
+	path = docs/RTCM/asv-gnss
+	url = https://github.com/asv-soft/asv-gnss.git
