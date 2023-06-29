@@ -35,3 +35,4 @@ tools - вспомогательное программное обеспечен
 ### [SparkFun_GNSS_Timing-ZED-F9T](https://github.com/sparkfun/SparkFun_GNSS_Timing-ZED-F9T)
 ### [SparkFun_RTK_Reference_Station](https://github.com/sparkfun/SparkFun_RTK_Reference_Station)
 ### [Time-Appliance-Project](https://github.com/opencomputeproject/Time-Appliance-Project)
+### [SparkFun_u-blox_GNSS_Arduino_Library](https://github.com/sparkfun/SparkFun_u-blox_GNSS_Arduino_Library)

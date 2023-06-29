@@ -10,3 +10,6 @@
 [submodule "docs/TAP/Time-Appliance-Project"]
 	path = docs/TAP/Time-Appliance-Project
 	url = https://github.com/opencomputeproject/Time-Appliance-Project.git
+[submodule "docs/GPS-18774/SparkFun_u-blox_GNSS_Arduino_Library"]
+	path = docs/GPS-18774/SparkFun_u-blox_GNSS_Arduino_Library
+	url = https://github.com/sparkfun/SparkFun_u-blox_GNSS_Arduino_Library.git
