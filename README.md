@@ -30,6 +30,7 @@ tools - вспомогательное программное обеспечен
 ### [GNSS Timing Breakout - ZED-F9T (Qwiic) Hookup Guide](https://learn.sparkfun.com/tutorials/gnss-timing-breakout---zed-f9t-qwiic-hookup-guide?_ga=2.188865775.555973505.1687876556-1904890489.1687876556)
 ### [Building GNSS system](https://www.sparkfun.com/gps)
 ### [RTKLib](https://rtklib.com/)
+### [NMEA 4.11](https://gpsd.gitlab.io/gpsd/NMEA.html)
 
 ## Репозитории
 ### [SparkFun_GNSS_Timing-ZED-F9T](https://github.com/sparkfun/SparkFun_GNSS_Timing-ZED-F9T)
