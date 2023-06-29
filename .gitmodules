@@ -1,3 +1,12 @@
 [submodule "docs/GPS-22429/SparkFun_RTK_Reference_Station"]
 	path = docs/GPS-22429/SparkFun_RTK_Reference_Station
 	url = https://github.com/sparkfun/SparkFun_RTK_Reference_Station.git
+[submodule "docs/GPS-22429/SparkFun_GNSS_Timing-ZED-F9T"]
+	path = docs/GPS-22429/SparkFun_GNSS_Timing-ZED-F9T
+	url = https://github.com/sparkfun/SparkFun_GNSS_Timing-ZED-F9T.git
+[submodule "docs/GPS-18774/SparkFun_GNSS_Timing-ZED-F9T"]
+	path = docs/GPS-18774/SparkFun_GNSS_Timing-ZED-F9T
+	url = https://github.com/sparkfun/SparkFun_GNSS_Timing-ZED-F9T.git
+[submodule "docs/TAP/Time-Appliance-Project"]
+	path = docs/TAP/Time-Appliance-Project
+	url = https://github.com/opencomputeproject/Time-Appliance-Project.git
