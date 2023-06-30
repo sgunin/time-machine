@@ -11,6 +11,7 @@ docs - документация
 4. Кабель [CAB-21740](https://www.sparkfun.com/products/21740)
 5. RTK станция [GPS-22429](https://www.sparkfun.com/products/22429)
 6. Проект [Time appliance project](https://www.opencompute.org/wiki/Time_Appliances_Project)
+7. [Глонасс](https://russianspacesystems.ru/bussines/navigation/sdkm/vysokotochnoe-mestoopredelenie/)
 
 hw - аппаратное обеспечение
 
