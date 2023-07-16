@@ -25,3 +25,6 @@
 [submodule "docs/RTCM/asv-gnss"]
 	path = docs/RTCM/asv-gnss
 	url = https://github.com/asv-soft/asv-gnss.git
+[submodule "docs/GPS-18774/SparkFun_u-blox_GNSS_v3"]
+	path = docs/GPS-18774/SparkFun_u-blox_GNSS_v3
+	url = https://github.com/sparkfun/SparkFun_u-blox_GNSS_v3
