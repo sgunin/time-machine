@@ -34,3 +34,6 @@
 [submodule "docs/RTKLIB/RTKLIB"]
 	path = docs/RTKLIB/RTKLIB
 	url = https://github.com/tomojitakasu/RTKLIB.git
+[submodule "samples/iGPS"]
+	path = samples/iGPS
+	url = https://github.com/igps-ftk/iGPS.git
