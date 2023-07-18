@@ -1,0 +1,3 @@
+KERNEL=="gps.status",     NAME="gps/status", MODE="0666"
+KERNEL=="gps.measurement",NAME="gps/measurement", MODE="0666"
+KERNEL=="gps.data",       NAME="gps/data", MODE="0666"

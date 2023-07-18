@@ -1,0 +1,22 @@
+@t:FRT
+@i:System 1200
+@v:1.00
+@a:FormatManager generated
+@c:Leica Geosystems AG
+@d:lunedì, giugno 11, 2012
+@o:Format Manager 1.0
+@l:System 1200_Field
+%NTPS_export
+#WG
+#LM
+#TC
+#PB
+&W1.000000000000
+&L1.000000000000
+&T1.000000000000
+&P1.000000000000
+@Dd1
+@Df1.00
+@Ds--------
+$1771000"%-20.10s	%-30.10s	%#-5.3f	%#9.5f	%#9.5f	%#9.4f	%#5.3f	%-30.10s"0110033011301100330277208203300881081133002110811330022208203300312082033008701100331091;
+$1271000"STATION                      	POINT NAME                    	HS   	AZIMUT  	ZENITH  	DISTANCE	HP   	PT CODE"

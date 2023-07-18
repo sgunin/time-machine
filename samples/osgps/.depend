@@ -1,0 +1,12 @@
+gpsfuncs.o: gpsfuncs.c consts.h structs.h types.h globals.h gpsfuncs.h \
+  file.h interfac.h rinex.h
+gpsrcvr.o: gpsrcvr.c serport.h nmea.h consts.h structs.h types.h \
+  interfac.h gpsfuncs.h globals.h rinex.h
+nav_fix.o: nav_fix.c structs.h types.h consts.h globals.h gpsfuncs.h \
+  file.h interfac.h rinex.h
+linuxusr.o: linuxusr.c interfac.h types.h
+nmea.o: nmea.c nmea.h consts.h structs.h types.h globals.h FwInter.h \
+  serport.h
+FwInter.o: FwInter.c FwInter.h nmea.h structs.h types.h interfac.h
+rinex.o: rinex.c structs.h types.h consts.h globals.h gpsfuncs.h file.h \
+  interfac.h rinex.h

@@ -28,3 +28,6 @@
 [submodule "docs/GPS-18774/SparkFun_u-blox_GNSS_v3"]
 	path = docs/GPS-18774/SparkFun_u-blox_GNSS_v3
 	url = https://github.com/sparkfun/SparkFun_u-blox_GNSS_v3
+[submodule "samples/gnss-sdr-cttc"]
+	path = samples/gnss-sdr-cttc
+	url = https://git.code.sf.net/p/gnss-sdr/cttc
