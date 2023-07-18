@@ -31,3 +31,6 @@
 [submodule "samples/gnss-sdr-cttc"]
 	path = samples/gnss-sdr-cttc
 	url = https://git.code.sf.net/p/gnss-sdr/cttc
+[submodule "docs/RTKLIB/RTKLIB"]
+	path = docs/RTKLIB/RTKLIB
+	url = https://github.com/tomojitakasu/RTKLIB.git
