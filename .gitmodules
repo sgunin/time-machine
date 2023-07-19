@@ -43,3 +43,6 @@
 [submodule "samples/ppp-tools"]
 	path = samples/ppp-tools
 	url = https://github.com/aewallin/ppp-tools
+[submodule "samples/gpspace"]
+	path = samples/gpspace
+	url = https://github.com/CGS-GIS/GPSPACE
