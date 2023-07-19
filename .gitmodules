@@ -49,3 +49,9 @@
 [submodule "samples/groops"]
 	path = samples/groops
 	url = https://github.com/groops-devs/groops
+[submodule "samples/gnsstk"]
+	path = samples/gnsstk
+	url = https://gitlab.com/sgl-ut/gnsstk.git
+[submodule "samples/gnsstk-apps"]
+	path = samples/gnsstk-apps
+	url = https://gitlab.com/sgl-ut/gnsstk-apps.git
