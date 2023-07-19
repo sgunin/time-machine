@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is the main ant build.xml file for UNAVCO GSAC, in gsac-code/.  Used to build all the GSAC core code (GSL).               -->
+<!-- For BOTH Java 1.6 and Java 1.7 builds of GSAC -->
+<!-- When the javadoc target is omitted, this build.xml has no dependencies on Java version or on Java library .jar files. -->
+<!-- 28 Jan 2015. -->
+
+<project basedir="." default="gsac" name="UNAVCO">
+
+    <target name="help">
+      <echo  message="To create a new GSAC installation, begin with gsac-code/src/org/gsac/README."/>
+      <echo  message="You are in gsac-code/.  To build GSAC core code, do ant in gsac-code/"/>
+    </target>
+
+
+    <target name="init">
+        <property name="distdir" value="${basedir}/dist"/>
+        <mkdir dir="${distdir}"/>
+
+        <property name="dist_javadoc" value="${distdir}/javadoc"/>
+        <mkdir dir="${dist_javadoc}"/>
+
+        <property name="lib" value="${basedir}/lib"/>
+        <property name="srcdir" value="${basedir}/src"/>
+
+        <!-- used by the javadoc target 
+        Java 1.7 library files:
+        <property name="classpath" value="${lib}/javax.servlet-api-3.1.0.jar:${lib}/unidata_idv.jar:${lib}/gson-2.3.1.jar:${lib}/commons-pool2-2.2.jar:${lib}/log4j-1.2.17.jar:${lib}/commons-dbcp2-2.0.1.jar"/>
+        for Java 1.6 use : FIX commons lib files, use older versions
+        <property name="classpath" value="${lib}/servlet-api.jar:${lib}/unidatautil.jar:${lib}/gson-2.3.1.jar:${lib}/commons-pool2-2.2.jar:${lib}/log4j-1.2.17.jar:${lib}/commons-dbcp2-2.0.1.jar"/>
+        -->
+    </target>
+
+   <target name="release" depends="init,purge" >
+        <antcall target="gsac"/>
+   </target>
+
+   <target name="clean" depends="init" >
+        <delete>
+            <fileset dir="${srcdir}" includes="**/*.class"/>
+        </delete>
+    </target>
+
+   <target name="purge" depends="init,clean" >
+     <delete dir="${distdir}"/>
+    </target>
+
+    <target name="gsac" depends="init">
+      <antcall target="gsl"/>
+    </target>
+
+    <target name="gsl" depends="init">
+      <echo message="Building GSL"/>
+      <ant antfile="${srcdir}/org/gsac/gsl/build.xml" inheritAll="false"/>
+    </target>
+
+    <!-- The GSAC client need only be built by UNAVCO.  Its lib files are in gsac-code/dist/gsacserver/, not in gsac-code/.  
+    <target name="client" depends="init">
+      <echo message="Building GSAC client"/>
+      <ant antfile="${srcdir}/org/gsac/client/build.xml" inheritAll="false"/>
+    </target>
+    -->
+
+    <!--
+    <target name="javadoc" depends="init">
+      <echo message="Building GSAC javadoc"/>
+        <javadoc
+            Author="true"
+            Doctitle="GSAC/GSL"
+            Use="true"
+            Version="true" 
+            Windowtitle="GSAC/GSL"
+            classpath="${classpath}"
+            destdir="${dist_javadoc}"
+            maxmemory="512m"
+            sourcepath="${srcdir}">
+            <link href="http://java.sun.com/javase/6/docs/api/"/>
+            <package name="org.gsac.*"/>
+            <excludepackage name="org.gsac.ramadda"/>
+            <excludepackage name="org.nasa.cddis"/>
+            <excludepackage name="org.gsac.template"/>
+        </javadoc>
+    </target>
+    -->
+
+</project>

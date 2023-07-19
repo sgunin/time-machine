@@ -1,0 +1,119 @@
+ 
+29 Jan 2015
+
+GSAC imported Java library .jar files.
+
+Java lib files for GSAC are (29 Jan 2015, in gsac-doce/lib/):
+
+commons-dbcp-1.4.jar     commons-pool2-2.2.jar          javax.servlet-api-3.1.0.jar  joda-time-2.6.jar               ojdbc7.jar              xercesImpl-2.11.0.jar
+commons-dbcp2-2.0.1.jar  jetty-all-9.2.6.v20141205.jar  log4j-1.2.17.jar             postgresql-9.3-1102.jdbc41.jar                          xml-apis-2.10.0.jar
+commons-logging-1.2.jar  gson-1.5.jar                   jetty.jar                    mysql-connector-java-5.1.34-bin.jar  
+commons-pool-1.6.jar     gson-2.3.1.jar                 jetty-util.jar                                               ojdbc6.jar              unidata_idv.jar
+
+These files support both Java 1.6 and Java 1.7 builds.  Each build uses only the library files it needs.
+
+Note the build.xml files in 
+  gsac-code/
+  gsac-code/src/org/gsac/gsl/
+  and in gsac-code/src/[domain/mygscacode]/gsac
+
+must include and match Java library (.jar) file names in gsac-code/lib. 
+
+
+Apache 'commons'
+see http://commons.apache.org/proper/commons-dbcp/download_dbcp.cgi
+commons-dbcp2-2.0.1-bin.tar.gz
+12 July 2014
+
+commons-logging-1.2.jar
+Jul 05, 2014
+http://mvnrepository.com/artifact/commons-logging/commons-logging/1.2
+
+pool
+see http://commons.apache.org/proper/commons-pool/download_pool.cgi
+commons-pool2-2.2-bin.tar.gz
+25 February 2014
+
+
+gson
+http://code.google.com/p/google-gson/
+"Gson is a Java library that can be used to convert Java Objects into their JSON representation."
+http://search.maven.org/#artifactdetails|com.google.code.gson|gson|2.3.1|jar
+gson-2.3.1.jar  20-Nov-2014
+
+
+javax.servlet-api-3.1.0.jar
+Apr 25, 2013
+from
+http://mvnrepository.com/artifact/javax.servlet/javax.servlet-api/3.1.0
+" Make sure that you're using the same Servlet API specification that your Web container supports.
+The Web container that you use will definitely have the API jars you require."
+
+
+jetty
+ download jetty-all.jar versions from:
+http://mvnrepository.com/artifact/org.eclipse.jetty.aggregate/jetty-all
+as Dec 5 2014 version:
+http://mvnrepository.com/artifact/org.eclipse.jetty.aggregate/jetty-all/9.2.6.v20141205
+
+
+Joda-Time is the widely used replacement for the Java date and time classes.
+http://www.joda.org/joda-time/
+Joda-Time is the de facto standard date and time library for Java. From Java SE 8 onwards, users are asked to migrate to java.time (JSR-310).
+The standard date and time classes prior to Java SE 8 are poor. By tackling this problem head-on, Joda-Time has become the de facto standard date and time library for Java. Note that from Java SE 8 onwards, users are asked to    migrate to java.time (JSR-310).
+The design allows for multiple calendar systems, while still providing a simple API. The “default” calendar is the ISO8601 standard which is used by many other standards.
+ For 2.6 the current release
+https://github.com/JodaOrg/joda-time
+https://github.com/JodaOrg/joda-time/releases
+-rw-r--r--  1 wier wier  3537059 2014-12-18 11:13 joda-time-2.6-dist.tar.gz
+But also joda-time-2.6-dist.tar.gz says:
+"Available in the Maven Central repository"
+http://search.maven.org/#artifactdetails|joda-time|joda-time|2.6|jar
+to download the joda-time-2.6.jar file  (not the joda-time-2.6-dist.tar.gz as above)
+
+
+MySQL Connector/J is the official JDBC driver for MySQL.
+http://dev.mysql.com/downloads/connector/j/Connector/J 5.1.34
+http://dev.mysql.com/downloads/file.php?id=454396
+got
+3811153 2014-12-19 12:03 mysql-connector-java-5.1.34.tar.gz
+
+
+Oracle Database 12.1.0.1 JDBC Driver & UCP Downloads
+http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html
+JDBC Thin for All Platforms
+Download    demo.tar (686,080 bytes) - JDBC Demos (TAR format)
+Download    demo.zip (614,561 bytes) -JDBC Demos (ZIP format)
+Download    ojdbc7.jar (3,397,734 bytes) - For use with JDK 7; It contains the JDBC driver classes except classes for NLS support in Oracle Object and Collection types.
+
+
+postgres.jar
+http://jdbc.postgresql.org/download.html
+Current Version
+This is the current version of the driver. Unless you have unusual requirements (running old applications or JVMs), this is the driver you should be using. It supports Postgresql 7.2 or newer and requires a 1.5 or newer JVM. It  contains support for SSL and the javax.sql package. It comes in two flavours, JDBC3 and JDBC4. If you are using the 1.6 then you should use the JDBC4 version. If you are using 1.7 or 1.8 then you should use the JDBC41 version.
+( JDBC3 Postgresql Driver, Version 9.3-1102
+( JDBC4 Postgresql Driver, Version 9.3-1102
+used: JDBC41 Postgresql Driver, Version 9.3-1102
+   http://jdbc.postgresql.org/download/postgresql-9.3-1102.jdbc41.jar
+
+
+unidata_idv.jar: Holds utilities from Unidata.
+These are *selected* Java classes in the Unidata IDV package, from the idv.jar file: 7036137 2014-08-08 10:57 idv.jar
+from the IDV v5 download package from Unidata, http://www.unidata.ucar.edu/software/idv/.
+The file for GSAC, unidata_idv.jar, was composed by UNAVCO from that much larger idv.jar from Unidata from the 8 Aug 2014 IDV code.
+
+
+xerces
+xercesImpl-2.11.0.jar
+http://search.maven.org/#browse|1670690801
+
+
+xml-apis-2.10.0.jar          09-Jul-2010 10:08  215K  :
+http://maven.ala.org.au/repository/xerces/xml-apis/2.10.0/
+
+
+And when you build GSAC you also create gsacws.jar in the lib directory.
+This is the GSAC GSL core code library.
+We put it here because other packages depend on it.  This contains compiled core GSAC (GSL) code which all other forms  of GSAC use.
+
+

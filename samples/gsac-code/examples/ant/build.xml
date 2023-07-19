@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+
+<!-- 
+       $Id: build.xml 328 2011-12-20 18:05:27Z griffinwerks $ 
+-->
+
+
+<project name="gsacws" default="info" basedir=".">
+
+	<description>
+		For more information, try: ant usage
+	</description>
+	
+	<target name="info">
+		<echo>
+This file demonstrates various ant tasks to utilize the GSAC-WS web
+services along with network tasks and XSLT to query the availability
+of files and then download them. 
+
+The following targets cat be specified:
+
+example1 - Query the GSAC-WS service for all the files in the BARD
+           network (group) and download them.  Requires modules 
+           apache-commons-net and apache-commons-n
+
+example2 - Query the GSAC-WS service and use XSLT 2.0 template
+			
+</echo>
+	</target>
+	
+	<!-- =================================================================== -->
+	<!--   Global and Local settings                                         -->
+	<!-- =================================================================== -->
+	
+	<property file="build.properties" />
+	
+	<!-- =================================================================== -->
+	<!-- Initialization target                                               -->
+	<!-- =================================================================== -->
+
+	<target name="init" description="Initialize Properties">
+
+		<tstamp>
+		  <format property="year" pattern="yyyy"/>
+		</tstamp>
+		
+		<property name="build.log" value="${DSTAMP}-build.log" />
+		
+		<echo>Initialize ${DSTAMP}</echo>
+
+		<property name="archive.host" value="http://facility.unavco.org"/>
+		<property name="datadate.from" value="2011-11-01"/>
+		<property name="datadate.to" value="2011-11-02"/>
+		<property name="site.group" value="PBO+East+Region"/>
+		<property name="file.type" value="gnss.data.rinex.observation"/>
+		<property name="service.endpoint" value="/gsacws/gsacapi/file/search/files.xml"/>
+		<property name="service.url" 
+			value="${archive.host}${service.endpoint}?output=file.gsacxml&amp;file.datadate.from=${datadate.from}&amp;file.datadate.to=${datadate.to}&amp;site.group=${site.group}&amp;file.type=${file.type}"/>
+		<property name="service.result.file" value="q-${site.group}-${DSTAMP}.xml"/>
+		<property name="ant.make.ftp.task.file" value="build-${DTSTAMP}.xml"/>
+		<property name="userid" value="anonymous"/>
+		<property name="password" value="sopac@ucsd.edu"/>
+		<property name="target.dir" value="./gsacfiles"/>
+	</target>
+
+	<!-- 
+		The first example uses the built-in xslt 1.0, and is a very limited example that
+		gets the files from one day.
+	-->
+	<target name="example1" depends="init" description="Query Archive REST Service for Files">
+		<echo>Querying GSAC-WS archive...</echo>
+		<get src="${service.url}" dest="${service.result.file}"/>
+		<echo>Parsing GSAC XML ${service.result.file} to Ant FTP task</echo>
+		<xslt style="gsac-to-ftptask.xsl" in="${service.result.file}" out="build-ftp.xml">
+			<param name="dstamp" expression="${DSTAMP}"/>
+			<param name="server" expression="garner.ucsd.edu"/>
+			<param name="userid" expression="${userid}"/>
+			<param name="password" expression="${password}"/>
+			<param name="remote-dir" expression="pub/rinex/2011/305"/>
+			<param name="dir" expression="./gsacfiles/pub/rinex/305"/>
+		</xslt>
+		<mkdir dir="${target.dir}"/>
+		<echo>Calling Ant FTP task...</echo>
+		<ant antfile="build-ftp.xml" />
+	</target>
+
+	<!--
+		This example uses XLST 2.0 through the Saxon library and gets files for the 
+		last week. It does this by using the echoxml task to first create a properties
+		file, then uses XSLT to create an ant build file (build-get2.xml) that calls
+		the GSAC service to query the files for the last week.  The returned GSAC-XML
+		file is then parsed into an Ant build file (build-ftp2.xml) that uses the ftp
+		task to acquire the files.   
+	-->
+	<target name="example2" depends="init" description="Query files for last week">
+
+		<echo>Creating ant build file...</echo>
+		<echoxml file="example2-properties.xml">
+			<properties>
+				<archive>
+					<host>${archive.host}</host>
+				</archive>
+				<site>
+					<group>${site.group}</group>
+				</site>
+				<file>
+					<type>${file.type}</type>
+				</file>
+				<service>
+					<endpoint>${service.endpoint}</endpoint>
+					<result>
+						<file>${service.result.file}</file>
+					</result>
+				</service>
+				<userid>${userid}</userid>
+				<password>${password}</password>
+				<target>
+					<dir>${target.dir}</dir>
+				</target>
+			</properties>
+		</echoxml>
+
+		<!-- Perhaps there is a way to do date or duration conversion. The following 
+		     uses XSLT 2.0 to accomplish this, creating the task that will query GSAC
+		     for files for the last week.
+		-->
+		<xslt  style="make-get-task2.xsl" in="example2-properties.xml" out="build-get2.xml"
+			classpath="${ant.home}/lib/saxon9he.jar:">
+			<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+		</xslt>
+		<ant antfile="build-get2.xml"/>
+		<echo>Parsing GSAC XML ${service.result.file}" to Ant FTP task</echo>
+		<xslt style="gsac-to-ftptask2.xsl" in="${service.result.file}" out="build-ftp2.xml"
+			classpath="${ant.home}/lib/saxon9he.jar">
+			<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+			<param name="dstamp" expression="${DSTAMP}"/>
+			<param name="host" expression="${archive.host}"/>
+			<param name="userid" expression="${userid}"/>
+			<param name="password" expression="${password}"/>
+			<param name="dir" expression="${target.dir}"/>
+		</xslt>
+		<mkdir dir="${target.dir}"/>
+		<echo>Calling Ant FTP task...</echo>
+		<ant antfile="build-ftp2.xml"/>
+	</target>
+	
+</project>

@@ -1,0 +1,371 @@
+
+body {
+     border-left : 1px black solid;
+     margin:0;
+}
+
+td {
+   font-size: 12pt;
+}
+
+
+table {
+      margin: 0px;
+}
+
+
+.input, .password, .fileinput,.textarea,.select {
+  border : 1px #888888 solid;
+}
+
+input {
+  padding: 0.0em;
+}
+
+
+
+
+
+.gsac-content {
+   font-size: 12pt;
+   font-family: Arial, Helvetica, sans-serif;       
+   color: black;
+   margin: 0px;
+   padding: 10px;
+   padding-top: 0px;
+   min-height:800px;
+}
+
+.gsac-header {
+   text-align: center;
+   align:center;
+   margin-bottom:8px;
+}
+
+.gsac-header-notselected, .gsac-header-selected {
+   display: inline-block;
+   padding-top: 4px;
+   padding-left: 4px;
+   padding-right: 4px;
+   text-decoration:none;
+   margin:2px;
+}
+
+
+.gsac-legend {
+   font-size: 10pt;
+  font-weight: bold;
+  margin-left:2px;
+}
+
+.gsac-fieldset {
+   border : 1px #ccc solid;
+   padding:5px;
+   padding-bottom:10px;
+}
+
+.gsac-header-selected {
+     font-weight: bold;
+     color: black;
+}
+
+.gsac-header-notselected {
+     color: #44f;
+}
+
+.gsac-header-notselected:hover {
+   text-decoration:underline;
+}
+
+.gsac-header-separator {
+}
+
+
+.gsac-header2 {
+   font-size:90%;
+   text-align: center;
+   align:center;
+   margin-bottom:8px;
+}
+
+.gsac-header2-notselected, .gsac-header2-selected {
+   display: inline-block;
+   padding-top: 4px;
+   padding-left: 2px;
+   padding-right: 2px;
+   text-decoration:none;
+   margin-left:2px;
+}
+
+
+.gsac-header2-selected {
+     font-weight: bold;
+     color: black;
+}
+
+.gsac-header2-notselected {
+     color: #44f;
+}
+
+.gsac-header2-notselected:hover {
+   text-decoration:underline;
+}
+
+.gsac-header2-separator {
+}
+
+.gsac-map-table {
+//   border : 1px #888 solid;
+}
+
+
+.gsac-map-resources {
+   max-height:600px;
+   overflow-y: auto;
+   min-width: 100px;
+}
+
+
+
+.gsac-helpimg {
+         margin-top:20px;
+         margin-bottom:20px;
+}
+
+.gsac-separator {
+   font-size: 9pt;
+}
+
+.tooltip-inner {
+   padding:2px;
+   padding-bottom:0px;
+   padding-right:0px;
+   background-color : #f6f6f6;
+   margin:0px;
+}
+
+.tooltip-link-inner {
+   border : 1px black solid;
+   margin:0px;
+   padding:1px;
+   background-color : #ffffff;
+}
+
+
+.tooltip-outer {
+   border : 1px #666 solid;
+   margin:0px;
+   position: absolute; 
+   left:-10000px;
+//   visibility: hidden; 
+   z-index: 1;
+  -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=5, OffY=5, Color='gray');
+  -ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=5, OffY=5, Color='gray')";
+}
+
+
+.gsac-enumtable {
+   border-color: #666;
+   border-width: 0 0 1px 1px;
+   border-style: solid;
+}
+
+
+.gsac-enumtable td {
+    padding:7px;
+    padding-bottom:2px;
+    border-color: #666;
+    border-width: 1px 1px 0 0;
+    border-style: solid;
+    margin: 0;
+}
+
+
+
+.gsac-result-table {
+   border-color: #666;
+   border-width: 0 0 1px 1px;
+   border-style: solid;
+}
+
+
+.gsac-result-table td {
+    padding:4px;
+    padding-bottom:1px;
+    border-color: #666;
+    border-width: 1px 1px 0 0;
+    border-style: solid;
+    margin: 0;
+}
+
+
+.gsac-toolbar {
+     margin:1px;
+}
+
+.gsac-download-container {
+     padding:0px;
+     margin-bottom:4px;
+}
+
+.gsac-download-button:hover {
+     border : 1px #000 solid;
+}
+
+.gsac-download-button {
+     border : 1px #aaa solid;
+     margin:0px;
+     padding-top:3px;
+     padding-right:3px;
+     margin-bottom:2px;
+     background:url(${urlroot}/htdocs/icons/down_arrow.gif) no-repeat left center;
+     font-weight: bold;
+     background-color:#eee;
+     text-indent:14px;
+     font-size: 10pt;
+}
+
+
+.gsac-gobutton:hover {
+     border: 1px #999 solid;
+     background-color:#efefef;
+}
+
+
+.gsac-gobutton {
+     padding:0px;
+     padding-right:4px;
+     padding-left:4px;
+     border : 1px #fff solid;
+     background:url(${urlroot}/htdocs/icons/application_go.png) no-repeat left center;
+     text-indent:15px;
+}
+
+
+
+.gsac-innerresult-table  {
+    border-width: 0 0 0 0;
+    padding:0;
+    margin: 0;
+}
+
+.gsac-innerresult-table td {
+    padding:0px;
+    margin: 0;
+    border-width: 0px 0px 0 0;
+}
+
+.gsac-result-header {
+   background-color:#e8e8e8;
+   font-weight: bold;
+
+}
+
+.gsac-result-header, .gsac-result-header a {
+     color:#222;
+}
+
+
+
+.gsac-firstletternav {
+   font-size: 10pt;
+   text-decoration:none;
+}
+
+.gsac-navheader {
+  margin: 10px;
+  #font-weight: bold;
+}
+
+
+
+.gsac-filesize {
+    font-family: monospace;       
+}
+
+
+.gsac-formheader {
+   border-bottom : 1px #bcbcbc solid;
+   background: #eee;
+   font-weight: bold;
+   margin:0px;
+   margin-top:8px;
+   padding:0px;
+   padding-top:2px;
+   padding-bottom:0px;
+   padding-left:6px;
+   padding-right:20px;
+}
+
+
+.tableheader {
+  font-weight: bold;
+}
+
+.formlabeltop {
+   padding-top:4px;
+}
+
+.formlabel, .formlabeltop {
+  font-weight: bold;
+}
+
+.input:focus, .textarea:focus {
+     background: #fffeec;
+}
+
+
+.gsac-innernote {
+   padding-top:10px;
+}
+
+.popup a:hover {
+   text-decoration: underline;
+}
+
+.popup {
+   padding:1px;
+   text-decoration: none;
+   border : 1px #000 solid;
+   background-color : #FFFFFF;
+   position: absolute; 
+   left:-10000px;
+//   visibility: hidden; 
+   z-index: 1;
+}
+
+
+.gsac-note {
+  z-index: 1;
+  margin:10px;
+  padding-bottom:5px;
+  padding-left:5px;
+  border : 1px black solid;
+  background-color : #ffffcc;
+  /* offset left, top, thickness, color with alpha */
+  -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  /* IE */
+  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=5, OffY=5, Color='gray');
+  /* slightly different syntax for IE8 */
+  -ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=5, OffY=5, Color='gray')";
+}
+
+
+
+.gsac-notetext {
+}
+
+
+
+.gsac-earth-container {
+   border : 1px #888 solid;
+}
+
+.toggleblocklabellink {
+   text-decoration: none;
+}

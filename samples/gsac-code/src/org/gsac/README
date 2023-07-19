@@ -1,0 +1,693 @@
+##############################################################################################################################
+
+                                                    GSAC Installation
+
+                                                      README, Part 1.  
+
+                                     Creating an Initial GSAC server at your Data Center 
+                                              and How to Build a Federated GSAC 
+
+                                           4 December 2015   Stuart Wier, UNAVCO
+                                           Copyright (C) 2013, 2014, 2015 UNAVCO
+
+Quick Install
+
+For those who wish to read less, you may see the brief "GSAC Quick Installation", in the GSAC package at gsac-code/GSAC_Quick_Install.txt
+and online at http://www.unavco.org/software/data-management/gsac/lib/docs/GSAC_Quick_Install.txt
+in place of this document.  If something is unclear in that guide, you can return here for details.
+
+
+Introduction
+
+This README file describes the first steps in GSAC installation, and is Part 1 of two README files detailing GSAC installation.  
+This file is found in gsac-code/src/org/gsac/ in the GSAC package available from SourceForge, as described below.
+
+UNAVCO's GSAC is a package of code for web services. With GSAC a geodesy or geophysics data center can offer a set of complete, 
+consistent, modern web services for remote users to query the data center about stations and instruments, and download data 
+files make by the instruments, and product files such as plots.  The UNAVCO GSAC home page is at 
+http://www.unavco.org/software/data-management/gsac/gsac.html
+
+    Building your code for GSAC services has two major parts:
+    a. Download the GSAC package and build its core code (called the GSL, the GSAC service layer), which includes some templates for your "local GSAC files".
+    b. Complete your "local GSAC files". Your "local GSAC files" are new Java for GSAC to read from your database, and also to specify what services your GSAC offers.
+
+This README Part 1 (and the GSAC Quick Installation guide) tells how to do "a."
+
+GSAC instructions use a hypothetical "Boulder" data repository; you will of course use your own terms.
+
+README Part 2 tells how to do "b," complete your "local GSAC files". You will create two important new Java code files 
+(for example, BoulderSiteManager.java and BoulderFileManager.java) in your "local GSAC files". Or you can use the "Prototype" Java files provided in the
+GSAC package, including the Prototype15 database schema .sql file.
+
+And section 4 below describes the optional installation of a "federated GSAC" which makes an online service merging
+GSAC services from several separate data repository GSACs.  To install a federated GSAC, follow the instructions in this README 
+file, except the section "Create GSAC configuration files and make your initial GSAC."  Then follow the section 4 "To Build a Federated GSAC".
+
+##########################################
+
+System Requirements
+
+You can install GSAC web services for a data repository when you have:
+
+    A suitable operating system for GSAC, with Java JDK 1.6 or 1.7, subversion ('svn') a respository control tool, and 'ant' a Java compilation and build tool.
+
+    A database, with complete metadata about sites (stations or monuments), their instruments, and their data files (if any).
+    You will need a database server to create and / or modify contents in your database, and for GSAC to call.
+
+    A web server for GSAC, and an application container. Running GSAC with the Tomcat application container is the most common, but GSAC can use its included application container, Jetty.
+
+    The GSAC software package provided by UNAVCO, which you download from SourceForge as detailed in the To Install GSAC section below.
+
+    Usually, data files from observing instruments, for remote users to download. 
+    If you offer data file downloads, an FTP / HTTP download server is needed; it may be different from the server for the GSAC web application.
+
+Beginning January 29, 2015,  GSAC can be made with with Java 1.6 or Java 1.7.  Library files are updated from the older GSAC libraries.
+If you use Tomcat with Java JRE 1.6 you will need GSAC built with Java 1.6.
+
+Details below tell how to choose which Java version of GSAC to use.
+
+To install and test preliminary working GSAC software, you do not need the web server, FTP server, or data files. You can implement and test your GSAC on a personal computer before dealing with web servers. GSAC will use Jetty on your desktop machine (included with GSAC). 
+
+##########################################
+
+
+Operating Systems for GSAC
+
+Your operating system will need a Java 1.6 or 1.7 Development Kit (JDK), and the utilities 'ant' (a build tool for Java), 
+bash a Linux shell (or similar shell), and subversion ('svn', a code repository manager).
+
+A recommended operating system for GSAC is Debian. Debian with bash has simple installation of the software tools you need, using the apt-get utility. Ubuntu and OpenSUSE are similar. Debian is recommended by programmers for stable and secure operations.
+
+You need Java JDK 1.6 or 1.7. Most Linux systems come with a Java runtime library (JRE), but may lack the JDK with javac. 
+Try commands "java -version" and "javac -version" to see if you have both the JDK and JRE, and to make sure they both show the same Java version number.
+
+To install ant on Debian or Ubuntu, do command sudo apt-get install ant
+
+To install subversion ('svn') on Debian or Ubuntu, do command sudo apt-get install subversion
+
+To install or use the Tomcat application container, see the Tomcat for GSAC guide,  in the UNAVCO GSAC web site,  created and contributed by Marco Portugal, Space & Earth Geodetic 
+Analysis Laboratory (SEGAL), Universidade da Beira Interior, Departamento de Informática, Covilhã, Portugal.
+
+GSAC can work with MySQL and Oracle databases, and Postgre is is having a bug fixed (Jan. 2015). To install the MySQL server on Debian or Ubuntu, simply do the command sudo apt-get install mysql-server
+This requests you to "enter the root password", which is a new password for the MySQL root account, not your Linux system root password.
+
+Prior to 2015, GSAC using Java 1.6 was installed on Debian, Ubuntu, OpenSUSE, RedHat Linux, MacBook Air (10.8), Windows 7, CentOS, and Free BSD, with no known installation errors due to GSAC code problems.
+
+ About the earlier Java 1.6 GSAC:
+
+    For help with installation of GSAC on Mac OS, Windows 7, Free BSD, and CentOS see the contributed notes listed just below, and in the UNAVCO GSAC web site.
+
+    We have no reports of problems installing GSAC on any Linux-type operating systems other than CentOS and Fedora.
+
+    On a MacBook Air, see Installing GSAC on MacBook Air http://beta-web-server.win.int.unavco.org/software/data-management/gsac/installation/macbook-air/macbook-air.html, contributed by David Zuliani, CRS,        
+       Instituto Nazionale di Oceanografia e di Geofisica Sperimentale (OGS). This may work with other Macs as well.
+
+    On Windows 7, see Installing GSAC on Windows 7, http://beta-web-server.win.int.unavco.org/software/data-management/gsac/installation/windows/gsac-windows.txt, contributed by David Gómez, 
+       Rodríguez Department of Geodesy, Institut Cartogràfic i Geològic de Catalunya.
+
+    On FreeBSD, see Installing GSAC on FreeBSD, http://beta-web-server.win.int.unavco.org/software/data-management/gsac/installation/freebsd/freebsd.html, created and contributed by Xanthos Papanikolaou,
+       National Technical University of Athens, Dionysos Satellite Observatory, Higher Geodesy Laboratory.
+
+    GSAC CentOS Installation Tips, http://beta-web-server.win.int.unavco.org/software/data-management/gsac/installation/centos/GSAC_CentOS_installation_tips.pdf, contributed by  James Matykiewicz and
+       Susanna Gross of UNAVCO. This may not be complete.  GSAC has been installed on CentOS, but CentOS is the not first choice, since it lacks recent software and some system updates and changes
+       are required. Fedora appears to have complexities similar to CentOS.
+
+
+##########################################
+
+How to Install GSAC, Part 1.
+
+1. Download the GSAC package 
+
+    The following instructions use a hypothetical "Boulder" data repository. 
+
+    GSAC has a set of core code (the "GSAC Service Layer," or GSL), used by all installations. 
+    You will also need some local Java code files and several configuration files (README part 2).
+
+    You download the GSAC code package from SourceForge, and compile it, without making any changes to it.
+
+    To get the whole GSAC package from SourceForge:
+
+    Choose or make a top-level working directory for GSAC, and go there. For example:
+
+mkdir ~/GSAC/
+
+cd    ~/GSAC/
+
+    Check out the GSAC code from SourceForge by entering this command:
+
+svn export svn://svn.code.sf.net/p/gsac/code/trunk gsac-code
+
+    (svn export downloads all the files for the project, with no SourceForge revision control permission required.  
+     To find this command at SourceForge, go to https://sourceforge.net/projects/gsac/, and click on the 'Code' menu item in the 'Summary Files ...' menu line.
+     svn checkout is used if you have a developer's role, to check in new code for GSAC on SourceForge.)
+
+    This creates a new top level directory for all GSAC files, in a new directory called gsac-code/ and downloads all the files in the GSAC package.
+
+    Your new directory need not be called gsac-code/, as in the example svn export command above.  But the GSAC installation guides use gsac-code/ so it is easier to use that.
+
+
+2. To choose Java 7 (1.7) or Java 6 (1.6) to build GSAC.
+
+   The GSAC package when exported from SourceForge is ready to build GSAC with Java 1.7.  
+   If you want to use Java 1.7, make sure your javac compiler is for Java 1.7, such as this example: /usr/lib/jvm/java-7-oracle/bin/javac.  On Linux, to check, type the command 'which javac'.
+
+   The GSAC package from SourceForge contains code for both Java 1.6 and 1.7.  Rather than having 2 "releases" of GSAC, with more than 99% duplicate code, and which would require
+   UNAVCO to make identical updates in both releases, both versions of GSAC are in one package.
+
+   The difference is (almost) entirely due to Java library files. You can files which all library files: 
+
+   To modify files in the GSAC package from SourceForge to build with a Java 1.6 javac (to not use Java 1.7), do the following:
+      a. in gsac-code/src/org/gsac/gsl/ do the command cp build.xml.Java6 build.xml
+      b. in gsac-code/src/org/gsac/gsl/ edit the file GsacServer.java to use the two sections labeled "code block for Java 1.6 build of GSAC" 
+         and comment-out the two sections "code block for Java 1.7 build of GSAC".
+      c. in gsac-code/src/org/gsac/gsl/database/ edit the GsacDatabaseManager.java to use the lines labeled "Java 1.6 version" and to comment-out the lines for "Java 1.7 version."
+      d. Make sure your javac compiler is for Java 1.6, not Java 1.7.
+   More file changes to use Java 1.6 are in the README part 2 file detailed later.
+
+   Reverse these changes to use Java 1.7, if you later choose to use Java 1.7 in place of Java 1.6
+
+3. To build the GSAC core code (GSAC Source Library or GSL).
+
+   This creates a new .jar file gsac-code/lib/gsacws.jar which is used to build particular instances of the GSAC services, such as your GSAC service.
+
+cd gsac-code/
+
+    Do an initial ant build with the command:
+
+ant
+
+    This process sends information to the screen, like "gsl: Building GSL", and takes about 6 to 30 seconds.
+    Some lines from a successful build are like:
+
+localinit:
+init:
+war:
+   [copy] Copying 1 file to /home/dev/GSAC/gsac-code/dist
+   [war] Building war:      /home/dev/GSAC/gsac-code/dist/gsacea.war
+BUILD SUCCESSFUL
+Total time: 36 seconds
+
+    Look for any error messages.  If there are none, you have compiled the GSAC core (GSL) code.
+
+    This process makes a Java jar file, named gsacws.jar, in gsac-code/lib/.
+    This file contains the compiled GSAC core GSL code.  This jar file will be used to build your final Java jar file 
+    for your complete GSAC server executable, to build the Tomcat .war file, and to build any other GSAC using the GSL on your system, such as a federated GSAC.
+
+#########################################
+
+
+About building GSAC with ant: the build.xml files
+
+Do not modify build.xml files to install GSAC.  This section is for information only.
+
+GSAC builds with 'ant' use files named build.xml.  First ant reads the build.xml file in the directory where ant is run.
+Each build.xml has instructions about what ant does.  One ant run may call several build.xml files in the package.
+
+For example, GSAC uses
+
+gsac-code/build.xml (builds the entire GSL but no local code)
+gsac-code/src/org/gsac/gsl/build.xml (called by the above to build most of the GSL)
+gsac-code/src/org/prototype/gsac/build.xml  (to build one local GSAC instance, prototypegsac, or build.xml in your GSAC code area.)
+
+build.xml files are something like 'make' files in the c language, and contain 'targets' among other things.
+
+One important role that ant does is include Java library (.jar) files, the ones required by the Java .java files 
+
+For example, gsac-code/src/org/gsac/gsl/build.xml has the line
+
+<property name="classpath" value="${libdir}/${commons-dbcp.jar}:${libdir}/${commons-pool.jar}:${libdir}/log4j-1.2.17.jar:${libdir}/ojdbc7.jar:${libdir}/unidatautil.jar:${libdir}/jetty-all-9.2.6.v20141205.jar:${libdir}/   javax.servlet-api-3.1.0.jar:${libdir}/gson-2.3.1.jar:${libdir}/joda-time-2.6.jar"/>
+
+Typing errors in such a line can cause builds to fail silently, with no error messages.  The first sign of trouble will be a failed run of a complete GSAC when it 
+tries to call a Java class in a library which failed to be included.  A single character wrong here can lead to a very complex and confusing error message in a GSAC run.
+
+The Java library (.jar) files used by GSAC (both Java 1.6 and Java 1.7) are in gsac-code/lib/.
+
+The Java library files used by GSAC are, as of 29 Jan 2015:
+commons-dbcp-1.4.jar     commons-pool2-2.2.jar  javax.servlet-api-3.1.0.jar    joda-time-2.6.jar            ojdbc7.jar                      xercesImpl-2.11.0.jar
+commons-dbcp2-2.0.1.jar  gsacws.jar             jetty-all-9.2.6.v20141205.jar  log4j-1.2.17.jar             postgresql-9.3-1102.jdbc41.jar  xml-apis-2.10.0.jar
+commons-logging-1.2.jar  gson-1.5.jar           jetty.jar                      mysql-connector-java-5.1.34-bin.jar  
+commons-pool-1.6.jar     gson-2.3.1.jar         jetty-util.jar                 ojdbc6.jar                   unidata_idv.jar
+
+The file gsac-code/lib/README tells where to download the .jar files for general information, but they already are in the GSAC package.
+The versions of the files listed above are recent at the date shown.  In future new versions may be released for some of them,
+
+You are welcome to update these library files when you know of newer versions.  After an update you should do a new complete build of the 
+GSAC package and look for errors caused by Java code changes required by the new libraries.  You may have to change lines of java, method calls, or 'import' lines
+in .java files, or other code.
+
+UNAVCO will attempt to update GSAC library files as they become available.  But UNAVCO checking in a new library file to the GSAC repository on 
+SourceForge will not of course automatically change your GSAC code.
+
+
+About building GSAC: the library files for database access
+
+GSAC uses library files to read from your database.  The library files in the GSAC package are (in gsac-code/lib/)
+
+ postgresql-9.3-1102.jdbc41.jar
+ mysql-connector-java-5.1.34-bin.jar
+ ojdbc6.jar  (Java 1.6 and oracle 11)
+ ojdbc7.jar  (Java 1.7 and oracle 12)
+ for older GSACs: oracleDriver.jar  (Java 1.5?  oracle 11?)
+
+You may find your brand of database and its version and which Java it works with may not work with the library file in GSAC builds.
+See the library files in gsac/gsl/build.xml in particular.
+
+#########################################
+
+
+Create the GSAC map configuration file "repositorymap.js"
+
+   How to set the Map Area:
+
+    Edit the file 
+
+    gsac-code/src/org/gsac/gsl/htdocs/repositorymap.js 
+
+    to set the longitude, latitude, and map zoom level for the center of the map GSAC shown shows in site search results on a web page.  
+
+    For example:
+
+var defaultLocation = new OpenLayers.LonLat(14.15, 48.5);  
+var defaultZoomLevel = 5;
+
+    The defaultZoomLevel value 3 shows a map about 10000 km across;  6 will show an area about 1200 km wide by 800 km high. 
+
+    West longitudes are negative.  Do not use "W".  South latitudes are negative.  Do not use "S".
+
+
+#########################################
+
+
+Create the GSAC Java jar file gsacws.jar 
+
+    Build the GSAC core code with command 'ant' again, executed in gsac-code/.  
+
+    This process makes a Java jar file, named gsacws.jar, in gsac-code/lib/, which includes all the GSAC core core, compiled and ready for execution on your machine,
+    in any GSAC which you make.
+
+
+#########################################
+
+
+Create the new initial GSAC directories and Java code for your GSAC.
+
+
+To use the Prototype GSAC.
+
+   If you want to use the protoype GSAC code (which uses the Prototype GSAC database design), now 
+   cd to the prototype GSAC code area, provided in the GSAC package: 
+
+cd to gsac-code/src/org/prototype/gsac/ 
+
+   Follow the README file there to complete your prototype GSAC installation. That is README "Part 2" for the prototype GSAC code. 
+
+OR
+
+To use the Dataworks GSAC.
+
+   If you want to use the Dataworks  GSAC (which uses the Dataworks GSAC database design), now 
+   cd to the dataworks GSAC code area, provided in the GSAC package: 
+
+cd to gsac-code/src/org/dataworks/gsac/ 
+
+   Follow the README file there to complete your prototype GSAC installation. That is README "Part 2"  for the Dataworks GSAC.
+
+OR
+  
+To make a custom GSAC, to use an existing database.
+
+  Use the command "ant makerepository" to create your prelimary "local GSAC code":
+
+    First make a new macros template file. Go to the template/ directory:
+
+cd  to gsac-code/src/org/gsac/template/
+
+    Copy the file macros.properties to a new properties file such as my.properties.  
+
+cp  macros.properties  my.properties
+
+    The new file name does not matter. You only use this file one time, now.
+
+    Edit the new properties file to set values for your repository GSAC.  For example, new values something like these:
+
+vi  my.properties
+
+    target.name=The Boulder GNSS Repository  
+    ## To name the repository. Spaces are allowed.
+
+    target.basename=bouldergsac     
+    ## For your package's .jar file name, and for the Tomcat .war file name
+
+    target.package=org.boulder.gsac  
+    ## to set your GSAC Java package name.  This controls making and naming the new directory path to hold your local GSAC installation code.
+    ## If your agency is not an "org", use the appropriate value such as pt, fr, de, is, gov, or edu.
+
+    target.prefix=Boulder          
+    ## to set the prefix for filenames for the new Java .java files and .class files for your GSAC installation. Like BoulderSiteManager.java.   No spaces.
+
+    target.dbdriver=mysql.jar     
+    ## to choose which Java database driver is used in GSAC code to read the database your GSAC will read.  Choose (uncomment) one of these three:
+    #target.dbdriver=mysql.jar     
+    #target.dbdriver=oracleDriver.jar
+    #target.dbdriver=postgres.jar
+
+
+   Next, change the working directory to the top of the GSAC core code, such as  
+
+cd  to gsac-code/src/org/gsac/
+
+    Then run this command, with your new properties file name in place of my.properties:
+
+ant -propertyfile template/my.properties makerepository   
+
+    The final lines of screen output should be something like this:
+
+copyjava:
+     [copy] Copying 1 file to /home/dev/GSAC/gsac-code/src/org/bouler/gsac
+     [echo] Repository source package has been created
+BUILD SUCCESSFUL
+Total time: 1 second
+
+    The ant ... makerepository process creates a new code area (new folders), and new Java files for your GSAC installation,
+    beginning with a new folder, such as in this case gsac-code/src/org/boulder/,
+    and populates it with some new directories and files for your GSAC repository's code.
+    This is where your "local GSAC files" are.
+
+
+##############################################################c################################################################
+
+Javax Security java.policy file
+
+Add the following line with 
+    permission ... "register" 
+to your java.policy file in the 'grant' section, which may be under $JAVA_HOME/lib/security/ or under $JRE_HOME/lib/security/.
+In some operating systems the java.policy file 
+is in /usr/lib/jvm/java-7-oracle/jre/lib/security/java.policy 
+or in java/jdk1.7.0_75/jre/lib/security/java.policy.
+
+Inside the java.policy file:
+
+grant {
+
+    //   many other lines
+
+    // JMX Java Management eXtensions
+    permission javax.management.MBeanTrustPermission "register";
+
+}; 
+
+This may need some admin privilege.  If you do not do this the error is
+security.AccessControlException: access denied ("javax.management.MBeanTrustPermission" "register")
+
+##############################################################c################################################################
+
+
+   End of GSAC installation, Part 1.
+
+   DO NEXT:
+
+   cd to the just-made new directory with new GSAC code for your repository, such as 
+
+cd to gsac-code/src/org/boulder/gsac/ 
+
+   Follow the README file there to complete your GSAC installation. That is README Part 2. 
+
+
+##############################################################c################################################################
+##############################################################c################################################################
+
+
+                             Section 4. How to To Install a Federated GSAC
+
+You can make a federated GSAC now (without the extra work to make a local GSAC server as described in README Part 2).
+
+Installing a federated GSAC is much simpler than installing GSAC for a data repository. 
+You do not use a local database for a federated GSAC, though you may choose to include your own GSAC in the federated GSAC.  
+
+If you have not already installed GSAC in any way, do step 4a below. 
+
+Otherwise do svn update for your GSAC core code again to get the original working code for federated GSAC, if your GSAC code is older, and then go to step 2.
+
+
+                           ###########################################
+
+4a.  Install the GSAC package.
+
+First review these sections in the UNAVCO GSAC web site, "GSAC Installation" page:
+http://www.unavco.org/software/data-management/gsac/installation/installation.html, 
+or simply Google "UNAVCO GSAC" to find the UNAVCO GSAC web site.
+
+    System Requirements
+
+    Local Repository Implementation Code
+
+    A Database for GSAC
+
+Install GSAC core code, as described in the GSAC web site, repeated here:
+
+    GSAC has a set of core code (the "GSAC Service Layer," or GSL), Java files and related files.
+
+    Download the GSAC core code package from SourceForge, and compile it without making any changes to it.  
+
+    To Get GSAC from SourceForge:
+
+    Choose or make a top-level working directory for GSAC, and go there. For example:
+
+    mkdir ~/GSAC/
+
+    cd    ~/GSAC/
+
+    Check out the GSAC code from SourceForge by entering this command:
+    (to find this command at SourceForge, go to https://sourceforge.net/projects/gsac/,
+      and click on the 'Code' menu item in the 'Summary Files ...' menu line.)
+
+    svn export svn://svn.code.sf.net/p/gsac/code/trunk gsac-code
+
+    (svn export simply downloads all the files for the package, with no SourceForge revision control permission required.  
+     svn checkout is used if you have a developer's role, to check in new code to GSAC on SourceForge.)
+
+    The svn export creates a new folder named gsac-code, and many folders and files in it.
+
+    Build the GSAC core code:
+
+    cd ~/GSAC/gsac-code/   [or your top level in GSAC directories]
+
+    Do an initial ant build with the command:
+
+    ant
+
+    Look for any error messages.  If there are none, you have completed the GSAC core code.  
+    This process makes a Java jar file, named gsacws.jar, in gsac-code/lib/, with size about 5 MB.
+    This file contains the executable GSAC core code, in effect.  This jar file will be used to build your final Java .jar file, 
+    and Tomcat .war file, for your complete GSAC server code.
+
+                        ###########################################
+
+4b. Set names, and connections to remote GSACs.
+
+Edit gsac-code/src/org/gsac/gsl/resources/gsac.properties, to set values:
+
+    ##Basic information for this repository
+    gsac.baseurl=/gsacfederated
+    gsac.repository.name=geoCenter Federated GSAC Repository
+    gsac.repository.description=Provides access to a set of external repositories
+
+Values shown here are only examples. The baseurl will be part of the complete URL to use the new GSAC.
+
+Federated GSACs use the services provided by other GSAC installations, usually at remote locations. 
+You must tell your federated GSAC about the other GSACs to use.  Federated GSACs do not use a local database.
+
+Edit the file  gsac-code/src/org/gsac/federated/resources/gsacserver_test.properties 
+to specify connections to remote GSACs.  Lines beginning with '#' are comments.  Here is an example of the complete file:
+
+    # For a federated GSAV, specify remote GSACs to use, and your GSAC's host.
+    # (This file gsacserver_test.properties gets copied to gsacserver.properties when you do ant.)
+
+    # Set the host name and port for the repository (your local server info, where your GSAC will run):
+    gsac.server.hostname=www.unavco.org
+    gsac.server.port=80
+
+    # For the remote GSACs to connect to, specify:
+    #gsac.federated.servers=        A comma-separated list of the remote GSACs (your own names, for use in this file only)
+    #gsac.federated.<id>.url=       A known URL for a remote GSAC, or the "Base URL" from the Infomation page on each remote 
+                                    # GSAC web site (which can in some cases be incorrect).
+    #gsac.federated.<id>.name=name  To show this name on your federated GSAC, a name for a remote GSAC repository 
+    #gsac.federated.<id>.icon=url   To link to small icon for that remote repository. Will be used inside web page tables of results,
+                                    # An icon with height < 50 pixels is good.
+
+    # examples  only:
+
+    gsac.federated.servers=geoazur,noanet
+
+    gsac.federated.geoazur.url=http://epos.unice.fr/gazgsac
+    gsac.federated.geoazur.name=Geoazur GPS Repository
+    gsac.federated.geoazur.icon=https://geoazur.oca.eu/IMG/png/OCA.png
+
+    gsac.federated.noanet.url=http://www.noa.gr/gsacnoanet
+    gsac.federated.noanet.name=NOANET GPS Repository
+    gsac.federated.noanet.icon=http://www.gein.noa.gr/services/GPS/NOA_GPS/noa_gps_files/images/temp/sample-post-1.jpg
+
+Ignore the file resources/gsacserver_production.properties.
+
+                           ###########################################
+
+
+4c. Edit files for your federated GSAC's home web page, header, and footer.
+
+Edit the file gsac/federated/resources/header.html to create your GSAC web page's header.
+Edit the file gsac/federated/htdocs/index.html to create your GSAC home page contents.
+
+There is a complete HTML footer file, gsac/federated/resources/footer.html, for all your GSAC web pages.
+You may change it, if you wish to.  
+
+Image files used in web pages are kept in federated/resources/htdocs/ .
+
+
+Make no changes to any Java files in gsac/federated/.
+The FederatedSiteManager.java and FederatedResourceManager.java files should NOT be changed. 
+
+
+                           ###########################################
+
+4d. Build and Deploy the Federated GSAC.
+
+To build your federated GSAC:
+
+Copy the correct build.xml template file in gsac-code/src/org/gsac/federated/ for your Java version to build.xml,  like
+
+  cp build.xml.Java7 build.xml
+
+Then, in gsac-code/src/org/gsac/federated/, build the federated GSAC .war file with:
+
+  ant
+
+This ant command builds a .jar file and a .war file, and copies resources/gsacserver_test.properties 
+to resources/gsacserver.properties.
+
+Some lines to screen are like:
+
+    localinit:
+    init:
+    war:
+         [copy] Copying 1 file to /home/dev/gsac/GSAC/gsac-code/dist
+       [delete] Deleting: /home/dev/gsac/GSAC/gsac-code/dist/gsacfederatedtest1.0/servlet-api.jar
+          [war] Building war: /home/dev/gsac/GSAC/gsac-code/dist/gsacfederated.war
+         [echo] ************************************************************************************************
+         [echo] To run the server, copy the new .war file .../gsac-code/dist/gsacfederated.war to your Tomcat application server, as in /usr/local/apachetomcat/webapps/ 
+         [echo] ************************************************************************************************
+    BUILD SUCCESSFUL
+    Total time: 10 seconds
+
+The customary GSAC test command "ant runserver" will usually fail because it cannot connect to remote GSACs.
+You must deploy the federated GSAC on a web server, typically with Tomcat, to test it.
+
+The ant build makes a new Tomcat war file, gsacfederated.war, in your gsac dist/ directory, such as:
+
+gsac-code/dist/gsacfederated.war
+
+To see the exact path for your gsacfederated.war file, look in the ant build screen output for a line like this:
+
+    [war] Building war: /home/dev/GSAC/gsac-code/dist/gsacfederated.war
+
+Copy the gsacfederated.war file to your web server host, in the Tomcat server area, such as
+
+ cp /home/dev/GSAC/gsac-code/dist/gsacfederated.war  /usr/local/apachetomcat/webapps/
+
+If you use Tomcat HotDeploy the new GSAC server will be deployed and the federated GSAC will be available.
+Without HotDeploy you will need to restart the Tomcat service.
+
+Your federated GSAC URL will have a Base URL something like http://www.boulder.org/gsacfederated.
+
+End of README for installing a federated GSAC.
+
+##############################################################c################################################################
+##############################################################c################################################################
+
+
+
+5. Updating GSAC to get new core code from SourceForge.
+
+ UNAVCO makes improvements to GSAC. You may wish to update a GSAC installation. For example, beginning in January 2015 GSAC has Java library files and java code to support builds with either Java 1.6 or Java 1.7. After a period of numerous refinements in GSAC based on early use, in 2013 and 2014, GSAC is ready to become more stable and to concentrate on installations and operations.
+
+31 March 2015
+
+There are at the moment eight GSACs operating on public web sites. There are many improvements in the core GSAC code since a year ago, such as a fix for the error in the format of SINEX longitude values in the range -0.9999 to 0.0
+
+All or some of those will be automatically used by any older local *SiteManager.java and *FileManager.java files. For example all the choices and formating of results is provided by GSAC core code.
+
+In general an older working GSAC was designed to use its older style database. And because of how GSAC is designed, its *SiteManager.java and *FileManager.java files will (or should!) still work the same way with the latest core GSAC code, along with the older database. Many improvements in the core GSAC (such as using Java 1.7) are automatically available. However as detailed below you need to make a new GSAC core installation and modify the ant build of your local GSAC java code since GSAC uses new Java library files after 2014 (i.e. change import lines and the build.xml file).
+
+Some new features enabled by new GSAC code/ new database contents will not be possible. Some new GSAC features depend on having new items in the new Prototype15 database schema, so in that case the new features will not be possible with all older databases and code. An example is that with the latest GSAC and with a new database you can (optionally) specify a terrestrial reference frame for each data file, and choose data files using a choice of TRF. Since older databases do not have TRF information, of course they can't do a GSAC search with terrestrial reference frames.
+
+If you have an earlier version of GSAC the best way to update GSAC core code and use your older local GSAC code is first to make a complete, new, separate installation. Otherwise you can make a complete, new, separate installation of GSAC, and make a new-style (Prototype) database with data from your previous database from GSAC.
+
+For all GSAC versions, the core GSAC code used by all GSAC installations is in gsac-code/src/ and in subdirectories of that directory. Let's say you have the older GSAC in directory GSAC/. You have your "local GSAC code" for your installation in a location such as GSAC/gsac-code/src/org/mygsac/gsac/ where in your case "mygsac" will be some other word, (or perhaps in a location more like GSAC/gsac-code/src/fr/renag/gsac/). Your local GSAC code will be there, for example, MygsacSiteManager.java. In these instructions we will use "mygsac" for the local GSAC code, both in the older code area, and in the new local GSAC code area to be installed now.
+
+Make a new top level directory for the new GSAC, GSAC2015/.
+
+Install an all-new GSAC according to the "To Install GSAC" section on this web page, above. You will do a new export from SourceForge of the main GSAC package, in the directory GSAC2015/. You follow the instructions in the README Part 1 file mentioned in that web page section. As usual, you edit the file
+GSAC2015/gsac-code/src/org/gsac/gsl/htdocs/repositorymap.js
+to set the longitude, latitude, and map zoom level for the center of the map GSAC which shown shows in site search results. You can see your old values in the older file like gsac-code/src/org/gsac/gsl/htdocs/repositorymap.js
+
+In GSAC2015/gsac-code/src/org/gsac/, build the core GSAC code with 'ant.'
+
+Next as detailed in the installation guide, use the command "ant makerepository" to create a new "mygsac/" local GSAC code area. Begin by making a new "my.properties" macros file.
+
+Next, copy some existing files from your old local GSAC code area, such as GSAC/gsac-code/src/org/mygsac/gsac/ area.
+
+Copy files from the 'old' mygsac/gsac/ directory to the new GSAC2015/gsac-code/src/org/mygsac/gsac/ area, for example with commands like this:
+
+cp -r /home/GSAC/gsac-code/src/org/mygsac/*java /home/GSAC2015/gsac-code/src/org/mygsac/
+cp -r /home/GSAC/gsac-code/src/org/mygsac/dbresources/* /home/GSAC2015/gsac-code/src/org/mygsac/dbresources/
+cp -r /home/GSAC/gsac-code/src/org/mygsac/resources/* /home/GSAC2015/gsac-code/src/org/mygsac/resources/
+cp -r /home/GSAC/gsac-code/src/org/mygsac/database/*java /home/GSAC2015/gsac-code/src/org/mygsac/database/
+cp -r /home/GSAC/gsac-code/src/org/mygsac/htdocs/* /home/GSAC2015/gsac-code/src/org/mygsac/htdocs/
+Do not copy the old build.xml file to the new area.
+
+(Do not do the command "ant tables" )
+
+Then you must make these changes in your code in GSAC2015/gsac-code/src/org/mygsac/gsac/:
+
+1. make sure the new build.xml file in the new GSAC2105 package has lines something like this, corresponding to your GSAC Java package and file names:
+
+property name="basename" value="mygsac"/
+property name="repository_relative_dir" value="org/agency/gsac"/
+property name="repositorypackage" value="org.agency.gsac"/
+property name="serverclass" value="${repositorypackage}.MygsacServer"/
+property name="repositoryclass" value="${repositorypackage}.MygsacRepository"/
+java classname="${repositorypackage}.MygsacDatabaseManager" maxmemory="512mb"
+
+2. Usually edit your new file mygsac/gsac/database/Tables.java by replacing import org.ramadda.sql.SqlUtil;
+with
+import org.gsac.gsl.ramadda.sql.SqlUtil;
+
+3. In your local area edit the 3 files like MygsacFileManager.java MygsacServer.java and MygsacSiteManager.java so they match the "import" lines in the headers of the corresponding new GSAC2015 files PrototypeFileManager.java, PrototypeServer.java and PrototypeSiteManager.java in GSAC2015/gsac-code/src/org/prototype/gsac/. This allows use of the latest Java library .jar files in the new GSAC package. Also make sure the .java file 'package' lines are updated.
+
+You will need to change the 'package' and 'import' lines in all your local Java files to work with the new Java 1.6 / 1.7 GSAC. Look at the corresponding lines in the Java files in src/org/prototype/gsac/ and src/org/prototype/gsac/database.
+
+There may be other import lines in Java files which need to be revised. You can always look at the corresponding Java files in GSAC2015/gsac-code/src/org/prototype/gsac/ to see code that works.
+
+Do a build of GSAC with 'ant' to look for errors indicating any problems. If ant succeeds, try 'ant runserver' to run your GSAC on your PC. 
+
+##############################################################c################################################################
+
+The GSAC package has these README files starting at gsac-code/: 
+README
+lib/README                    [where library files are]
+src/org/gsac/README           [part 1 of installation]
+src/org/[boulder]/gsac/README  [part 2 of installation]
+src/org/gsac/federated/README
+
+About Time Formats in GSAC
+
+GSAC tries to use all date and time values in the ISO 8601 format, like "yyyy-MM-dd HH:mm:ss" or "yyyy-MM-ddTHH:mm:ss", to avoid the complexities and 
+error-prone behavior of using several different formats. Internally GSAC avoids use of character strings for time.  Date and 
+time values in the ISO 8601 format may be easily entered into and extracted from databases as databases' 
+native datetime objects.  Date and time values in the ISO 8601 format as character strings may be easily converted into Java or Joda Date objects.
+
+GSAC treats all time values as UTC times, and does not expect the optional Z or time zone hour number in an ISO 8601 value.  
+GSAC does not expect times in the database to be in any time zone other than UTC.
+
+
+##############################################################c################################################################

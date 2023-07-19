@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="../../.." default="help" name="GSAC Build">
+    <target name="init">
+        <property name="srcdir" value="${basedir}/src"/>
+        <property name="gsacdir" value="${basedir}/src/org/gsac"/>
+    </target>
+
+    <target name="help">
+      <echo  message="To create a new GSAC installation, begin with gsac-code/src/org/gsac/README."/>
+      <echo  message="You are in gsac-code/src/org/gsac/.  To build GSAC core code, do ant in gsac-code/"/>
+    </target>
+
+    <target name="makerepository" depends="init">
+    <!-- First convert the target.package into the target.dir and target.dots properties -->
+      <script language="javascript">
+          var before = project.getProperty("target.package");
+          var dir = before.replaceAll("\\.", "/");
+          project.setProperty("target_dir", dir);
+          var dots = dir.replaceAll("[^/]+", "..")+"/..";
+          project.setProperty("target_dots", dots);
+      </script>
+    <property name="target.dir" value="${target_dir}"/>
+    <property name="target.dots" value="${target_dots}"/>
+     <echo message="dir = ${target.dir}"/>
+     <echo message="dots = ${target.dots}"/>
+
+     <mkdir dir="${srcdir}/${target.dir}"/>
+     <copy  overwrite="true" todir="${srcdir}/${target.dir}">
+          <fileset dir="${gsacdir}/template">
+             <exclude name="*.java"/>
+             <exclude name="*macros.properties"/>
+          </fileset>
+          <filterset>
+            <filter token="MACRO.BASENAME" value="${target.basename}"/>
+            <filter token="MACRO.NAME" value="${target.name}"/>
+            <filter token="MACRO.PACKAGE" value="${target.package}"/>
+            <filter token="MACRO.SRCDIR" value="${target.dir}"/>
+            <filter token="MACRO.PREFIX" value="${target.prefix}"/>
+            <filter token="MACRO.DBJAR" value="${target.dbdriver}"/>
+            <filter token="MACRO.DOTS" value="${target.dots}"/>
+          </filterset>
+        </copy>
+
+      <antcall target="copyjava" inheritAll="true">
+         <param name="file" value="DatabaseManager.java"/>
+      </antcall>
+      <antcall target="copyjava" inheritAll="true">
+        <param name="file" value="Repository.java"/>
+      </antcall>
+      <antcall target="copyjava" inheritAll="true">
+        <param name="file" value="Test.java"/>
+      </antcall>
+      <antcall target="copyjava" inheritAll="true">
+        <param name="file" value="FileManager.java"/>
+      </antcall>
+      <antcall target="copyjava" inheritAll="true">
+        <param name="file" value="Server.java"/>
+      </antcall>
+      <antcall target="copyjava" inheritAll="true">
+        <param name="file" value="SiteManager.java"/>
+      </antcall>
+       <echo message="Repository source package has been created"/>
+    </target>
+
+    <target name="makebuild" depends="init">
+      <copy  overwrite="true" file="${gsacdir}/template/build.xml" todir="${srcdir}/${target.dir}">
+          <filterset>
+            <filter token="MACRO.BASENAME" value="${target.basename}"/>
+            <filter token="MACRO.NAME" value="${target.name}"/>
+            <filter token="MACRO.PACKAGE" value="${target.package}"/>
+            <filter token="MACRO.SRCDIR" value="${target.dir}"/>
+            <filter token="MACRO.PREFIX" value="${target.prefix}"/>
+            <filter token="MACRO.DBJAR" value="${target.dbdriver}"/>
+            <filter token="MACRO.DOTS" value="${target.dots}"/>
+          </filterset>
+        </copy>
+    </target>
+
+
+   <target name="copyjava" depends="init">
+    <!--
+    For now set overwrite=true
+    -->
+      <copy  overwrite="true" file="${gsacdir}/template/${file}" 
+             tofile="${srcdir}/${target.dir}/${target.prefix}${file}">
+          <filterset>
+            <filter token="MACRO.BASENAME" value="${target.basename}"/>
+            <filter token="MACRO.NAME" value="${target.name}"/>
+            <filter token="MACRO.PACKAGE" value="${target.package}"/>
+            <filter token="MACRO.SRCDIR" value="${target.dir}"/>
+            <filter token="MACRO.PREFIX" value="${target.prefix}"/>
+          </filterset>
+        </copy>
+   </target>
+
+</project>
