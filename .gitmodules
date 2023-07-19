@@ -46,3 +46,6 @@
 [submodule "samples/gpspace"]
 	path = samples/gpspace
 	url = https://github.com/CGS-GIS/GPSPACE
+[submodule "samples/groops"]
+	path = samples/groops
+	url = https://github.com/groops-devs/groops
