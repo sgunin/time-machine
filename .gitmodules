@@ -37,3 +37,9 @@
 [submodule "samples/iGPS"]
 	path = samples/iGPS
 	url = https://github.com/igps-ftk/iGPS.git
+[submodule "samples/odtbx-git"]
+	path = samples/odtbx-git
+	url = https://git.code.sf.net/p/odtbx/git
+[submodule "samples/ppp-tools"]
+	path = samples/ppp-tools
+	url = https://github.com/aewallin/ppp-tools
