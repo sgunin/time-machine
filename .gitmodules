@@ -37,3 +37,21 @@
 [submodule "samples/iGPS"]
 	path = samples/iGPS
 	url = https://github.com/igps-ftk/iGPS.git
+[submodule "samples/odtbx-git"]
+	path = samples/odtbx-git
+	url = https://git.code.sf.net/p/odtbx/git
+[submodule "samples/ppp-tools"]
+	path = samples/ppp-tools
+	url = https://github.com/aewallin/ppp-tools
+[submodule "samples/gpspace"]
+	path = samples/gpspace
+	url = https://github.com/CGS-GIS/GPSPACE
+[submodule "samples/groops"]
+	path = samples/groops
+	url = https://github.com/groops-devs/groops
+[submodule "samples/gnsstk"]
+	path = samples/gnsstk
+	url = https://gitlab.com/sgl-ut/gnsstk.git
+[submodule "samples/gnsstk-apps"]
+	path = samples/gnsstk-apps
+	url = https://gitlab.com/sgl-ut/gnsstk-apps.git
