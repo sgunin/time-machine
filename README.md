@@ -32,6 +32,7 @@ tools - вспомогательное программное обеспечен
 ### [Building GNSS system](https://www.sparkfun.com/gps)
 ### [RTKLib](https://rtklib.com/)
 ### [NMEA 4.11](https://gpsd.gitlab.io/gpsd/NMEA.html)
+### [GE0Lib](https://ge0mlib.com/papers.html)
 
 ## Репозитории
 ### [SparkFun_GNSS_Timing-ZED-F9T](https://github.com/sparkfun/SparkFun_GNSS_Timing-ZED-F9T)
