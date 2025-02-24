@@ -33,9 +33,14 @@ tools - вспомогательное программное обеспечен
 ### [RTKLib](https://rtklib.com/)
 ### [NMEA 4.11](https://gpsd.gitlab.io/gpsd/NMEA.html)
 ### [GE0Lib](https://ge0mlib.com/papers.html)
+### [RTCM 3 Message List](https://www.use-snip.com/kb/knowledge-base/rtcm-3-message-list)
+### [Базовая станция ГНСС](https://mp-lab.ru/gnss-base-station/)
+### [RTCM_SC-104](https://ru.wikipedia.org/wiki/RTCM_SC-104)
+### [Differential_GPS](https://ru.wikipedia.org/wiki/Differential_GPS)
 
 ## Репозитории
 ### [SparkFun_GNSS_Timing-ZED-F9T](https://github.com/sparkfun/SparkFun_GNSS_Timing-ZED-F9T)
 ### [SparkFun_RTK_Reference_Station](https://github.com/sparkfun/SparkFun_RTK_Reference_Station)
 ### [Time-Appliance-Project](https://github.com/opencomputeproject/Time-Appliance-Project)
 ### [SparkFun_u-blox_GNSS_Arduino_Library](https://github.com/sparkfun/SparkFun_u-blox_GNSS_Arduino_Library)
+### [RTKLIB](https://github.com/tomojitakasu/RTKLIB)
